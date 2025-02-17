@@ -52,7 +52,13 @@ public class Turret : MonoBehaviour
 
     void Shoot()
     {
-        GameObject bulletGO = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        Destroy(bulletGO, 2f); // Xóa đạn sau 2 giây để tránh lag
+        if (target != null)
+        {
+            float distance = Vector3.Distance(transform.position, target.position);
+            GameObject bulletGO = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            Bullet bullet = bulletGO.GetComponent<Bullet>();
+            bullet.Initialize(distance, target);
+            Destroy(bulletGO, 2f);
+        }
     }
 }
